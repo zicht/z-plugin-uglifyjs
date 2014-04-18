@@ -1,0 +1,32 @@
+uglifyjs:
+    # The style to use when
+#    build_style:    compressed
+#    default_style:  nested
+
+tasks:
+    # Add the uglifyjs build trigger
+    build:
+        post: @_uglifyjs.build
+
+    # Trigger used to build the uglifyjs in the build process
+    _uglifyjs.build:
+        set:
+            _root: build.dir
+        do: @uglifyjs.update
+
+    # Watch the uglifyjs dirs in the current working dir
+    uglifyjs.watch:
+        help: "Watch the configured uglifyjs dirs"
+        set:
+            mode: '"watch"'
+#        do: echo "Watching is not implemented yet. Doing a poll-styl
+#            - while [ true ]; do if $($(uglifyjs.cmd(_root, _style))
+
+    # Update the uglifyjs dirs in the current working dir
+    uglifyjs.update:
+        help: "Compile uglifyjs"
+        set:
+            mode:   ? "update"
+            _root:  ? cwd
+            _style: ? ""
+        do: $(uglifyjs.cmd(_root, _style))
