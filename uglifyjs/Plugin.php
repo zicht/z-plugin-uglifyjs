@@ -41,7 +41,7 @@ class Plugin extends BasePlugin
                 foreach ($config['resources'] as $targetFile => $resource) {
                     $commands[]= sprintf(
                         'uglifyjs %s -o %s %s',
-                        $container->resolve('verbose') ? '-v --stats' : '',
+                        $container->resolve('VERBOSE') ? '-v --stats' : '',
                         escapeshellarg($targetDir . '/' . $targetFile),
                         "\\\n    " . join("\\\n    ",
                             array_map(
