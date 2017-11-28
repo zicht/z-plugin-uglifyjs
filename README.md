@@ -2,5 +2,6 @@
 
 Adds tasks and hooks for using uglifyjs
 
-# Maintainer(s)
-* Joppe Aarts <joppe@zicht.nl>
+# Maintainers
+* Michael Roterman <michael@zicht.nl>
+* Boudewijn Schoon <boudewijn@zicht.nl>
