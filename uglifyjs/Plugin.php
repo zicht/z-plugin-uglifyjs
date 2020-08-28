@@ -33,14 +33,19 @@ class Plugin extends BasePlugin
         $container->method(
             array('uglifyjs', 'cmd'),
             function(Container $container, $root) use($config) {
+                $localExec = 'node_modules/.bin/uglifyjs';
+                $exec = file_exists($localExec) ? 'node ' . $localExec : 'uglifyjs';
+
+                $root = ltrim(str_replace(getcwd(), '', $root), '/');
+
                 $commands = array();
-                $targetDir = rtrim($root, '/')
-                    . '/' . $config['web_root']
-                    . '/' . $config['target_dir'];
+                $targetDir = ltrim(rtrim($root, '/') . '/' . $config['web_root'] . '/' . $config['target_dir'], '/');
                 $commands[]= 'mkdir -p ' . escapeshellarg($targetDir);
                 foreach ($config['resources'] as $targetFile => $resource) {
-                    $commands[]= sprintf(
-                        'uglifyjs %s -o %s %s',
+                    $commands[] = 'echo ' . escapeshellarg('Uglifyjs ' . $targetDir . '/' . $targetFile);
+                    $commands[] = sprintf(
+                        '%s %s -o %s %s',
+                        $exec,
                         $container->resolve('VERBOSE') ? '-v --stats' : '',
                         escapeshellarg($targetDir . '/' . $targetFile),
                         "\\\n    " . join("\\\n    ",
@@ -48,10 +53,13 @@ class Plugin extends BasePlugin
                                 'escapeshellarg',
                                 array_map(
                                     function($file) use($config, $root) {
-                                        return rtrim($root, '/')
-                                            . '/' . $config['web_root']
-                                            . '/' . $config['src_dir']
-                                            . '/' . $file;
+                                        return ltrim(
+                                            rtrim($root, '/')
+                                                . '/' . $config['web_root']
+                                                . '/' . $config['src_dir']
+                                                . '/' . $file,
+                                            '/'
+                                        );
                                     },
                                     $resource['files']
                                 )
