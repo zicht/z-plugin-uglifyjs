@@ -8,13 +8,13 @@ uglifyjs:
 tasks:
     # Add the uglifyjs build trigger
     build:
-        post: @_uglifyjs.build
+        post: '@_uglifyjs.build'
 
     # Trigger used to build the uglifyjs in the build process
     _uglifyjs.build:
         args:
             _root: build.dir
-        do: @uglifyjs.update
+        do: '@uglifyjs.update'
 
     # Watch the uglifyjs dirs in the current working dir
     uglifyjs.watch:
