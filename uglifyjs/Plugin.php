@@ -28,7 +28,7 @@ class Plugin extends BasePlugin
 
     public function setContainer(Container $container)
     {
-        $config = Yaml::parse($container->resolve(array('uglifyjs', 'config')));
+        $config = Yaml::parse(file_get_contents($container->resolve(array('uglifyjs', 'config'))));
 
         $container->method(
             array('uglifyjs', 'cmd'),
