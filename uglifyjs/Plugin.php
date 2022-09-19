@@ -36,7 +36,7 @@ class Plugin extends BasePlugin
                 $root = ltrim(str_replace(getcwd(), '', $root), '/');
 
                 $localExec = 'node_modules/.bin/uglifyjs';
-                $exec = file_exists(rtrim($root, '/') . '/' . $localExec) ? 'node ' . $localExec : 'uglifyjs';
+                $exec = file_exists(($root ? rtrim($root, '/') . '/' : '') . $localExec) ? 'node ' . $localExec : 'uglifyjs';
 
                 $commands = array();
                 $targetDir = ltrim($config['web_root'] . '/' . $config['target_dir'], '/');
